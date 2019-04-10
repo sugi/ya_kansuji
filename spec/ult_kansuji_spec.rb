@@ -26,7 +26,7 @@ RSpec.describe UltKansuji do
     expect(u.to_i("二百二十二万零三百零二")).to eq 2220302
     expect(u.to_i("六百〇八")).to eq 608
     expect(u.to_i("六百十")).to eq 610
-    expect(u.to_i("千〇〇三")).to eq 1003
+    expect(u.to_i("千〇〇三億")).to eq 100300000000
     expect(u.to_i("千〇十")).to eq 1010
     expect(u.to_i("何か千〇十とか1")).to eq 1010
 
