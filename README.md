@@ -1,10 +1,10 @@
-# TODO: STUB!!
+# TODO: THIS GEM IS ALPHA VERSION, NOW.
 
-# UltKansuji - ruby 漢数字ライブラリ
+# YaKansuji - もう一つの (やりすぎ) ruby 漢数字ライブラリ
 
-Yet another (Ultra/Ultimate) Japanese Kansuji library for ruby.
+Yet another (ultimate) Japanese Kansuji library for ruby.
 
-UltKansuji ruby 用の日本語の漢数字ライブラリです。 和暦ライブラリの [wareki](https://github.com/sugi/wareki) から派生していますが、アラビア数字混じりの漢数字表記など、かなり多彩な表現を数値と相互変換することができます。
+YaKansuji は ruby 用の日本語の漢数字ライブラリです。 和暦ライブラリの [wareki](https://github.com/sugi/wareki) から派生していますが、アラビア数字混じりの漢数字表記など、かなり多彩な表現を数値と相互変換することができます。
 
 日本語以外の漢数字に関しては一切サポートしていません。
 
@@ -12,10 +12,10 @@ UltKansuji ruby 用の日本語の漢数字ライブラリです。 和暦ライ
 
 * 読み取り: 以下の混在したテキストを数値に変換出来ます
   * 漢数字
-  * 全角数字
+  * 全角数字 ()
   * 単位なし (
-  * ゼロ (
-  * 位取り (
+  * ゼロ ()
+  * 位取り (2億0010万, 千〇〇二)
   * 大字 (
   * カンマ表現
 * 数値から漢数字, 漢字混じり数値文字列フォーマット
@@ -23,31 +23,36 @@ UltKansuji ruby 用の日本語の漢数字ライブラリです。 和暦ライ
   * フォーマッタプラグイン機構
 * 標準の String, Number クラスの拡張 (必要があれば)
 
-
 ## インストール / Installation
 
-Add this line to your application's Gemfile:
+Gemfile に以下のようにして、bundle を実行するか、
 
 ```ruby
-gem 'ult_kansuji'
+gem 'ya_kansuji'
 ```
 
-And then execute:
+もしくは gem コマンドで直接インストールしてください。
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install ult_kansuji
-
+    $ gem install ya_kansuji
 
 ## 使い方 / Usage
+
+### ビルトインクラス拡張
+
+標準ではビルトインクラスの拡張をしません。
+
+bundle でない場合は
+
+```ruby
+
+```
+
 
 ### 読み取り (漢数字 →  数値) / Parse kansuji
 
 TODO: Write usage instructions here
 
-### フォーマット (数値 → 漢数字) / 
+### フォーマット (数値 → 漢数字) /
 
 ## Development
 
@@ -57,7 +62,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/sugi/ult_kansuji.
+Bug reports and pull requests are welcome on GitHub at https://github.com/sugi/ya_kansuji.
 
 ## License
 

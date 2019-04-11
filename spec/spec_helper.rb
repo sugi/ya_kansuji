@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "ult_kansuji"
+require "ya_kansuji"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

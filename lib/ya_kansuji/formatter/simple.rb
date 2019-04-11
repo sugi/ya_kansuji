@@ -1,4 +1,4 @@
-module UltKansuji
+module YaKansuji
   register_formatter :simple, lambda { |num, _options = {}|
     return '零' if num.zero?
 

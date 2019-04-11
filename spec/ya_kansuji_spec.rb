@@ -1,8 +1,8 @@
-RSpec.describe UltKansuji do
-  u = UltKansuji
+RSpec.describe YaKansuji do
+  u = YaKansuji
 
   it "has a version number" do
-    expect(UltKansuji::VERSION).not_to be nil
+    expect(YaKansuji::VERSION).not_to be nil
   end
 
   it "can convert kansuji to number" do

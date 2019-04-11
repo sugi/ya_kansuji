@@ -8,7 +8,7 @@ RSpec::Core::RakeTask.new(:spec)
 RuboCop::RakeTask.new(:lint)
 
 before :build do
-  spec = Bundler.load_gemspec(File.join(File.dirname(__FILE__), 'ult_kansuji.gemspec'))
+  spec = Bundler.load_gemspec(File.join(File.dirname(__FILE__), 'ya_kansuji.gemspec'))
   FileUtils.chmod(0o644, spec.files)
 end
 

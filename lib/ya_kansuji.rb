@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'ult_kansuji/version'
+require 'ya_kansuji/version'
 
-module UltKansuji
+module YaKansuji
   UNIT_EXP3 = %w(十 百 千).freeze
   UNIT_EXP4 = %w(万 億 兆 京 垓 𥝱 穣 溝 澗 正 載 極 恒河沙 阿僧祇 那由他 不可思議 無量大数).freeze
   NUM_ALT_CHARS = '〇一二三四五六七八九０１２３４５６７８９零壱壹弌弐貳貮参參弎肆伍陸漆質柒捌玖拾什陌佰阡仟萬秭'.freeze
@@ -19,7 +19,6 @@ module UltKansuji
   FORMATTERS = {}
 
   module_function
-
   def to_i(str)
     matched = REGEXP.match(str.to_s.tr(NUM_ALT_CHARS, NUM_NORMALIZED_CHARS)) or return 0
     ret3 = 0
@@ -79,6 +78,14 @@ module UltKansuji
     end
   end
 
+  def formatter(sym)
+    FORMATTERS[sym.to_sym]
+  end
+
+  def formatters
+    FORMATTERS
+  end
+
   def to_kan(num, formatter = :simple, options = {})
     num = num.to_i
     if formatter.respond_to? :call
@@ -91,4 +98,4 @@ module UltKansuji
   end
 end
 
-require 'ult_kansuji/formatter/simple'
+require 'ya_kansuji/formatter/simple'

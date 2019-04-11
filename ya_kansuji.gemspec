@@ -1,16 +1,16 @@
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'ult_kansuji/version'
+require 'ya_kansuji/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'ult_kansuji'
-  spec.version       = UltKansuji::VERSION
+  spec.name          = 'ya_kansuji'
+  spec.version       = YaKansuji::VERSION
   spec.authors       = ['Tatsuki Sugiura']
   spec.email         = ['sugi@nemui.org']
 
   spec.summary       = 'Japanese kansuji library for ruby'
   spec.description   = 'Pure ruby library of Japanese kansuji. Bi-directional convert support between number and kanji string.'
-  spec.homepage      = 'https://github.com/sugi/ult_kansuji'
+  spec.homepage      = 'https://github.com/sugi/ya_kansuji'
   spec.license       = 'MIT'
 
   spec.files         = Dir['lib/**/*.rb'] + %w(LICENSE.txt README.md ChangeLog)
