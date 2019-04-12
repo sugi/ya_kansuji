@@ -1,3 +1,4 @@
+# Simple kansuji formatter
 module YaKansuji
   register_formatter :simple, lambda { |num, _options = {}|
     return '零' if num.zero?

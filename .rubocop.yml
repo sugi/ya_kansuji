@@ -1,4 +1,4 @@
-#inherit_from: .rubocop_todo.yml
+inherit_from: .rubocop_todo.yml
 
 AllCops:
   AllowSymlinksInCacheRootDirectory: true
@@ -8,7 +8,7 @@ AllCops:
 
 Gemspec/RequiredRubyVersion:
   Exclude:
-    - 'ult_kansuji.gemspec' # Required to support 2.0
+    - 'ya_kansuji.gemspec' # Required to support 2.0
 
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
@@ -36,9 +36,13 @@ Layout/IndentHeredoc:
 Style/ConditionalAssignment:
   EnforcedStyle: assign_inside_condition
 
-# Configuration parameters: CountComments, ExcludedMethods.
-# ExcludedMethods: refine
-Metrics/BlockLength:
-  ExcludedMethods:
-    - each_char # for Kansuji.kan_to_i...
+# Offense count: 1
+# Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
+# URISchemes: http, https
+Metrics/LineLength:
+  Max: 94
 
+Style/Documentation:
+  Exclude:
+    - 'spec/**/*'
+    - 'test/**/*'

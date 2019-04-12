@@ -2,6 +2,7 @@
 
 require 'ya_kansuji/version'
 
+# Yet another Kansuji library for ruby.
 module YaKansuji
   UNIT_EXP3 = %w(十 百 千).freeze
   UNIT_EXP4 = %w(万 億 兆 京 垓 𥝱 穣 溝 澗 正 載 極 恒河沙 阿僧祇 那由他 不可思議 無量大数).freeze
@@ -16,9 +17,10 @@ module YaKansuji
     #{UNIT_EXP4.find_all { |u| u.length > 1 }.join('|')}
   }x.freeze
   REGEXP = /(?:#{REGEXP_PART})+/.freeze
-  FORMATTERS = {}
+  @@formatters = {}
 
   module_function
+
   def to_i(str)
     matched = REGEXP.match(str.to_s.tr(NUM_ALT_CHARS, NUM_NORMALIZED_CHARS)) or return 0
     ret3 = 0
@@ -70,28 +72,28 @@ module YaKansuji
 
   def register_formatter(sym, proc = nil, &block)
     if block_given?
-      FORMATTERS[sym.to_sym] = block
+      @@formatters[sym.to_sym] = block
     elsif proc.respond_to? :call
-      FORMATTERS[sym.to_sym] = proc
+      @@formatters[sym.to_sym] = proc
     else
       raise ArgumentError, 'Registering invalid formatter.'
     end
   end
 
   def formatter(sym)
-    FORMATTERS[sym.to_sym]
+    @@formatters[sym.to_sym]
   end
 
   def formatters
-    FORMATTERS
+    @@formatters
   end
 
   def to_kan(num, formatter = :simple, options = {})
     num = num.to_i
     if formatter.respond_to? :call
       formatter.call num, options
-    elsif FORMATTERS[formatter.to_sym]
-      FORMATTERS[formatter.to_sym].call num, options
+    elsif @@formatters[formatter.to_sym]
+      @@formatters[formatter.to_sym].call num, options
     else
       raise ArgumentError, "Unable to find formatter #{formatter}"
     end
