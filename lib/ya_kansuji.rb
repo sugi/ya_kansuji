@@ -74,16 +74,16 @@ module YaKansuji
 
   def register_formatter(sym, proc = nil, &block)
     if block_given?
-      @@formatters[sym.to_sym] = block
+      @@formatters[sym] = block
     elsif proc.respond_to? :call
-      @@formatters[sym.to_sym] = proc
+      @@formatters[sym] = proc
     else
       raise ArgumentError, 'Registering invalid formatter.'
     end
   end
 
   def formatter(sym)
-    @@formatters[sym.to_sym]
+    @@formatters[sym]
   end
 
   def formatters
@@ -94,8 +94,8 @@ module YaKansuji
     num = num.to_i
     if formatter.respond_to? :call
       formatter.call num, options
-    elsif @@formatters[formatter.to_sym]
-      @@formatters[formatter.to_sym].call num, options
+    elsif @@formatters[formatter]
+      @@formatters[formatter].call num, options
     else
       raise ArgumentError, "Unable to find formatter #{formatter}"
     end
