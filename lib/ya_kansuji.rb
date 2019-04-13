@@ -22,7 +22,9 @@ module YaKansuji
   module_function
 
   def to_i(str)
-    matched = REGEXP.match(str.to_s.tr(NUM_ALT_CHARS, NUM_NORMALIZED_CHARS)) or return 0
+    str = str.to_s.tr(NUM_ALT_CHARS, NUM_NORMALIZED_CHARS)
+    str.gsub!(/[,，:space:]/, '')
+    matched = REGEXP.match(str) or return 0
     ret3 = 0
     ret4 = 0
     curnum = nil
