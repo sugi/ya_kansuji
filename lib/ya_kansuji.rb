@@ -28,6 +28,7 @@ module YaKansuji
     ret3 = 0
     ret4 = 0
     curnum = nil
+    to_i_method = str.respond_to?(:_to_i_ya_kansuji_orig) ? :_to_i_ya_kansuji_orig : :to_i
     matched[0].scan(REGEXP_PART).each do |c|
       case c
       when '1', '2', '3', '4', '5', '6', '7', '8', '9'
@@ -36,7 +37,7 @@ module YaKansuji
         else
           curnum = 0
         end
-        curnum += c.to_i
+        curnum += c.public_send(to_i_method)
       when '0'
         curnum and curnum *= 10
       when '卄', '廿'
@@ -91,7 +92,6 @@ module YaKansuji
   end
 
   def to_kan(num, formatter = :simple, options = {})
-    num = num.to_i
     if formatter.respond_to? :call
       formatter.call num, options
     elsif @@formatters[formatter]
