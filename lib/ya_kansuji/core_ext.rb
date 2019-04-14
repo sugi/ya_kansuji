@@ -4,7 +4,7 @@ require 'ya_kansuji'
 
 # Core extension by kansuji
 class String
-  alias_method :_to_i_ya_kansuji_orig, :to_i unless defined?(_to_i_ya_kansuji_orig)
+  alias _to_i_ya_kansuji_orig to_i unless defined?(_to_i_ya_kansuji_orig)
 
   def to_i(base = nil)
     if base.nil? || base == :kan

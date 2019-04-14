@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'ya_kansuji/version'
+require 'ya_kansuji/core_refine'
 
 # Yet another Kansuji library for ruby.
 module YaKansuji
@@ -28,7 +29,11 @@ module YaKansuji
     ret3 = 0
     ret4 = 0
     curnum = nil
-    to_i_method = str.respond_to?(:_to_i_ya_kansuji_orig) ? :_to_i_ya_kansuji_orig : :to_i
+    if str.respond_to? :_to_i_ya_kansuji_orig
+      to_i_meth = :_to_i_ya_kansuji_orig
+    else
+      to_i_meth = :to_i
+    end
     matched[0].scan(REGEXP_PART).each do |c|
       case c
       when '1', '2', '3', '4', '5', '6', '7', '8', '9'
@@ -37,7 +42,7 @@ module YaKansuji
         else
           curnum = 0
         end
-        curnum += c.public_send(to_i_method)
+        curnum += c.public_send(to_i_meth)
       when '0'
         curnum and curnum *= 10
       when '卄', '廿'
@@ -92,6 +97,7 @@ module YaKansuji
   end
 
   def to_kan(num, formatter = :simple, options = {})
+    num = num.respond_to?(:_to_i_ya_kansuji_orig) ? num._to_i_ya_kansuji_orig : num.to_i
     if formatter.respond_to? :call
       formatter.call num, options
     elsif @@formatters[formatter]
