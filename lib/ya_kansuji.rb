@@ -23,7 +23,7 @@ module YaKansuji
 
   def to_i(str)
     str = str.to_s.tr(NUM_ALT_CHARS, NUM_NORMALIZED_CHARS)
-    str.gsub!(/[,，:space:]/, '')
+    str.gsub!(/[,，、:space:]/, '')
     matched = REGEXP.match(str) or return 0
     ret3 = 0
     ret4 = 0
