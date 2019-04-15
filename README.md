@@ -1,4 +1,4 @@
-# TODO: THIS GEM IS STILL ALPHA VERSION.
+# TODO: THIS GEM IS STILL BETA VERSION.
 
 # YaKansuji - もう一つの (やりすぎ) ruby 漢数字ライブラリ
 
@@ -11,7 +11,7 @@ Yet another (ultimate) Japanese Kansuji library for ruby.
 
 YaKansuji は ruby 用の日本語の漢数字ライブラリです。 和暦ライブラリの [wareki](https://github.com/sugi/wareki) から派生していますが、アラビア数字混じりの漢数字表記など、もう少し多彩な表現を数値と相互変換することができます。
 
-日本語以外の漢数字に関しては一切サポートしていません。
+現状のサポートは日本語で万進な10進数だけです。歴史的に使われたことのあった万万進や他の漢字圏の漢数字はサポートしていません。
 
 ## 機能 / Features
 
@@ -69,11 +69,11 @@ YaKansuji.to_kan(12340005, :judic_h) # => "１２３４万０００５"
 
 現在あるフォーマッタは以下のとおりです。
 
- * simple - 標準 (例: 千二百三十四万五)
- * TODO ~~gov - 「公用文作成の要領」方式 (100億, 30万円 / 5,000)~~
- * TODO ~~lawyer - 行政司法協会方式 (1,200億 / 2億58万6,300)~~
- * TOD ~~judic_v - 裁判判例縦書き方式 (一二万〇〇五六)~~
- * TODO ~~judic_h - 最高裁判例横書き方式 (５万０５３９)~~
+ * `simple` - 標準 (例: 千二百三十四万五)
+ * TODO ~~`gov` - 「公用文作成の要領」方式 (100億, 30万円 / 5,000)~~
+ * TODO ~~`lawyer` - 行政司法協会方式 (1,200億 / 2億58万6,300)~~
+ * TODO ~~`judic_v` - 裁判判例縦書き方式 (一二万〇〇五六)~~
+ * TODO ~~`judic_h` - 最高裁判例横書き方式 (５万０５３９)~~
 
 #### 独自フォーマッタ
 
@@ -94,12 +94,12 @@ YaKansuji.to_kan(123, :hoge)   # => "たくさん"
 
 ### 標準クラス拡張
 
-標準では YaKansuji のクラスメソッドを直接呼ぶことで使用できますが、短く書く場合、必要応じてビルトインクラス (String, Integer) の拡張を使うことができます。
+標準では YaKansuji の特異メソッドを直接呼ぶことで使用できますが、短く書く場合、必要応じてビルトインクラス (String, Integer) の拡張を使うことができます。
 
 クラス拡張では `String#to_i` を置き換え、 `Integer#to_kan` を追加します。
-このさい、Refinements と直接拡張の好きな方を選択できます。
+拡張の方法は、Refinements と直接拡張の好きな方を選択できます。
 
-#### Refinements による拡張
+#### [Refinements](https://docs.ruby-lang.org/en/2.6.0/syntax/refinements_rdoc.html) による拡張
 
 `YaKansuji::CoreRefine` を using すると、 `String#to_i` を置き換え、 `Integer#to_kan` を追加します。
 
@@ -112,9 +112,18 @@ puts "二万".to_i     # => 20000
 puts 20000.to_kan   #= > "二万"
 ```
 
+ちなみに、 `to_i` に base が渡された場合は、漢数字が解釈されずにビルトインクラスのものが呼ばれます。
+
+```ruby
+using YaKansuji::CoreRefine
+
+puts "12万".to_i      # => 120000
+puts "12万".to_i(16)  # => 18
+```
+
 #### メソッド上書き
 
-Refinements をいちいち使わずに、全域でビルトインクラスを上書きしたい場合は `ya_kansuji/core_ext` を読み込んでください。
+Refinements を使わずに、全域でビルトインクラスを上書きしたい場合は `ya_kansuji/core_ext` を読み込んでください。*これは破壊的にコアライブラリのメソッドを置き換えるため、影響範囲に注意して下さい。*
 上書きや提供されるメソッドは Refinements と同じです。
 
 ```ruby
@@ -129,7 +138,7 @@ gem 'ya_kansuji', require: 'ya_kansuji/core_ext'
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/sugi/ya_kansuji.
+Bug reports and pull requests are welcome on GitHub at https://github.com/sugi/ya\_kansuji.
 
 ## License
 
@@ -138,4 +147,3 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ## Author
 
 Tatsuki Sugiura <sugi@nemui.org>
-\\
