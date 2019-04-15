@@ -121,7 +121,7 @@ puts "12万".to_i(16)  # => 18
 
 #### メソッド上書き
 
-Refinements を使わずに、全域でビルトインクラスを上書きしたい場合は `ya_kansuji/core_ext` を読み込んでください。*これは破壊的にコアライブラリのメソッドを置き換えるため、影響範囲に注意して下さい。*
+Refinements を使わずに、全域でビルトインクラスを上書きしたい場合は `ya_kansuji/core_ext` を読み込んでください。**これは破壊的にコアライブラリのメソッドを置き換えるため、影響範囲に注意して下さい。**
 上書きや提供されるメソッドは Refinements と同じです。
 
 ```ruby
@@ -136,7 +136,7 @@ gem 'ya_kansuji', require: 'ya_kansuji/core_ext'
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/sugi/ya\_kansuji.
+Bug reports and pull requests are welcome on GitHub at https://github.com/sugi/ya_kansuji.
 
 ## License
 
