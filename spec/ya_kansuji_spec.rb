@@ -29,7 +29,12 @@ RSpec.describe YaKansuji do
     expect(u.to_i("千〇〇三億")).to eq 100300000000
     expect(u.to_i("千〇十")).to eq 1010
     expect(u.to_i("何か千〇十とか1")).to eq 1010
+  end
+
+  it "can convert number with comma" do
     expect(u.to_i("1,000億 5,432万")).to eq 100054320000
+    expect(u.to_i("12,345")).to eq 12345
+    expect(u.to_i("二万、五十")).to eq 20050
   end
 
   it "can convert number to kansuji" do
