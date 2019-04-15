@@ -1,5 +1,3 @@
-# TODO: THIS GEM IS STILL BETA VERSION.
-
 # YaKansuji - もう一つの (やりすぎ) ruby 漢数字ライブラリ
 
 [<img src="https://badge.fury.io/rb/ya_kansuji.svg" alt="Gem Version" />](https://badge.fury.io/rb/ya_kansuji)
@@ -13,7 +11,7 @@ YaKansuji は ruby 用の日本語の漢数字ライブラリです。 和暦ラ
 
 現状のサポートは日本語で万進な10進数だけです。歴史的に使われたことのあった万万進や他の漢字圏の漢数字はサポートしていません。
 
-## 機能 / Features
+## 機能
 
 * 読み取り: 以下の混在したテキストを数値に変換出来ます
   * 漢数字 (二万三千五百六十七)
@@ -27,7 +25,7 @@ YaKansuji は ruby 用の日本語の漢数字ライブラリです。 和暦ラ
   * フォーマッタプラグイン機構
 * (オプション) 標準の String, Interger クラスの拡張
 
-## インストール / Installation
+## インストール
 
 Gemfile に以下のようにして、bundle を実行するか、
 
