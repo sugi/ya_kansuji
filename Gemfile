@@ -7,3 +7,5 @@ gem 'rake-hooks'
 gem 'rubocop', require: false
 gem 'travis'
 gem 'travis-lint'
+gem 'guard'
+gem 'guard-rspec'
