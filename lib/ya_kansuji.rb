@@ -109,3 +109,7 @@ module YaKansuji
 end
 
 require 'ya_kansuji/formatter/simple'
+require 'ya_kansuji/formatter/gov'
+require 'ya_kansuji/formatter/lawyer'
+require 'ya_kansuji/formatter/judic_v'
+require 'ya_kansuji/formatter/judic_h'

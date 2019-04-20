@@ -40,5 +40,6 @@ guard :rspec, cmd: "bundle exec rspec" do
   ruby = dsl.ruby
   dsl.watch_spec_files_for(ruby.lib_files)
 
+  watch(%r{^lib/ya_kansuji\.rb$}) { |m| "spec/ya_kansuji_spec.rb" }
   watch(%r{^lib/ya_kansuji/(.+)\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
 end

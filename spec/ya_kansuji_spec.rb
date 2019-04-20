@@ -36,14 +36,4 @@ RSpec.describe YaKansuji do
     expect(u.to_i("12,345")).to eq 12345
     expect(u.to_i("二万、五十")).to eq 20050
   end
-
-  it "can convert number to kansuji" do
-    expect(u.to_kan(1234)).to eq "千二百三十四"
-    expect(u.to_kan(10003)).to eq "一万三"
-    expect(u.to_kan(10_010_003)).to eq "千一万三"
-    expect(u.to_kan(100_000_003)).to eq "一億三"
-    expect(u.to_kan(200_000_000_056)).to eq "二千億五十六"
-    expect(u.to_kan(9_030_000_001_008)).to eq "九兆三百億千八"
-  end
-
 end

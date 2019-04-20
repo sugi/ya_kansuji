@@ -1,4 +1,5 @@
-RSpec.describe YaKansuji do
+require "spec_helper"
+RSpec.describe YaKansuji::Formatter do
   it "can register formatter with proc" do
     proc1 = proc {"p1"}
     expect(YaKansuji.register_formatter :proc1, proc1).to be_truthy
@@ -32,7 +33,7 @@ RSpec.describe YaKansuji do
     }.to raise_error(ArgumentError)
   end
 
-  it "can run formatter" do
+  it "can run custom formatter" do
     YaKansuji.register_formatter :hoge,
       -> (num, opts = {}) {
       if num == 0 ;   ""
@@ -43,6 +44,13 @@ RSpec.describe YaKansuji do
     }
     expect(YaKansuji.to_kan(1, :hoge)).to eq "いち"
     expect(YaKansuji.to_kan(4, :hoge)).to eq "たくさん"
+
+
+    YaKansuji.register_formatter :rule4, -> (num, opts = {}) { (num % 4).to_s  }
+    10.times {
+      num = rand(1000000)
+      expect(YaKansuji.to_kan(num, :rule4)).to eq (num % 4).to_s
+    }
   end
 
 end
