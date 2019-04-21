@@ -5,7 +5,8 @@ module YaKansuji
   module Formatter
     module Simple
       module_function
-      def call(num, options = {})
+
+      def call(num, _options = {})
         return '零' if num.zero?
 
         ret = ''

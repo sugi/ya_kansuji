@@ -42,6 +42,10 @@ Style/ConditionalAssignment:
 Metrics/LineLength:
   Max: 94
 
+Style/FormatString:
+  EnforcedStyle: percent
+
+
 Style/Documentation:
   Exclude:
     - 'spec/**/*'

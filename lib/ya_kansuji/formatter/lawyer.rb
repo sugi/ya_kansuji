@@ -3,7 +3,8 @@ module YaKansuji
   module Formatter
     module Lawyer
       module_function
-      def call(num, options = {})
+
+      def call(num, _options = {})
         return '0' if num.zero?
 
         ret = ''

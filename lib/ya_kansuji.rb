@@ -97,7 +97,7 @@ module YaKansuji
   end
 
   def to_kan(num, formatter = :simple, options = {})
-    num = num.respond_to?(:_to_i_ya_kansuji_orig) ? num._to_i_ya_kansuji_orig : num.to_i
+    num.respond_to?(:_to_i_ya_kansuji_orig) ? num = num._to_i_ya_kansuji_orig : num = num.to_i
     if formatter.respond_to? :call
       formatter.call num, options
     elsif @@formatters[formatter]

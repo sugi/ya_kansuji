@@ -3,7 +3,8 @@ module YaKansuji
   module Formatter
     module Gov
       module_function
-      def call(num, options = {})
+
+      def call(num, _options = {})
         return '0' if num.zero?
 
         parts = []
@@ -17,7 +18,7 @@ module YaKansuji
           end
           parts << i4.to_s + unit4
         end
-        parts.join(", ")
+        parts.join(', ')
       end
     end
     YaKansuji.register_formatter :gov, Formatter::Gov

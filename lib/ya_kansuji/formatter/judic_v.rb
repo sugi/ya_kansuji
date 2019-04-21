@@ -3,7 +3,8 @@ module YaKansuji
   module Formatter
     module JudicV
       module_function
-      def call(num, options = {})
+
+      def call(num, _options = {})
         return '〇' if num.zero?
 
         ret = ''
@@ -15,7 +16,7 @@ module YaKansuji
           if head
             ret << i4.to_s + unit4
           else
-            ret << ('%04d' %  i4).to_s + unit4
+            ret << ('%04d' % i4) + unit4
           end
           head = false
         end
