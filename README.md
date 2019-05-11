@@ -4,6 +4,7 @@
 [<img src="https://travis-ci.org/sugi/ya_kansuji.svg?branch=master" alt="Build Status" />](https://travis-ci.org/sugi/ya_kansuji)
 [<img src="https://coveralls.io/repos/sugi/ya_kansuji/badge.svg?branch=master&service=github" alt="Coverage Status" />](https://coveralls.io/github/sugi/ya_kansuji?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/007f79c6f7f6e82daa20/maintainability)](https://codeclimate.com/github/sugi/ya_kansuji/maintainability)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/61b4656b56cf41759f857086a7b9eade)](https://www.codacy.com/app/sugi/ya_kansuji?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sugi/ya_kansuji&amp;utm_campaign=Badge_Grade)
 
 Yet another (ultimate) Japanese Kansuji library for ruby.
 
