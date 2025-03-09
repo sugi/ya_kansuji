@@ -18,5 +18,7 @@ jobs:
           bundler-cache: true
       - name: Install dependencies
         run: bundle update
+      - name: List installed gems
+        run: bundle list
       - name: Run RuboCop
         run: bundle exec rubocop --format github --only-recognized-file-types
