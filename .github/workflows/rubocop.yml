@@ -19,4 +19,4 @@ jobs:
       - name: Install dependencies
         run: bundle update
       - name: Run RuboCop
-        run: bundle exec rubocop --parallel --format github
+        run: bundle exec rubocop --parallel --format github --debug
