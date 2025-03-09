@@ -17,14 +17,8 @@ jobs:
           ruby-version: '3.2'
           bundler-cache: true
       - name: Install dependencies
-        run: bundle install
-      - name: Create temporary RuboCop config
-        run: |
-          echo "AllCops:" > .rubocop_ci.yml
-          echo "  DisabledByDefault: false" >> .rubocop_ci.yml
-          echo "  NewCops: enable" >> .rubocop_ci.yml
-          echo "  Exclude:" >> .rubocop_ci.yml
-          echo "    - 'vendor/**/*'" >> .rubocop_ci.yml
-          echo "    - 'tmp/**/*'" >> .rubocop_ci.yml
+        run: bundle update
+      - name: List installed gems
+        run: bundle list
       - name: Run RuboCop
-        run: bundle exec rubocop --parallel --format github --config .rubocop_ci.yml
+        run: bundle exec rubocop --format github --only-recognized-file-types
