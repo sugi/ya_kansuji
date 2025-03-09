@@ -1,3 +1,9 @@
+2025-03-09  Tatsuki Sugiura <sug@nemui.org>
+
+	* Version: 1.0.0
+	* Minor changes to cleanup build with ruby 3.x
+	* Strip whitespace on parsing.
+
 2019-04-21  Tatsuki Sugiura  <sugi@nemui.org>
 
 	* Version: 0.2.0
