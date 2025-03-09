@@ -1,6 +1,6 @@
 name: Ruby Tests
 
-on: [pull_request]
+on: [push, pull_request]
 
 jobs:
   test:
@@ -27,3 +27,7 @@ jobs:
         run: |
           bundle update
           bundle exec rspec
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
