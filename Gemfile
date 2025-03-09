@@ -6,8 +6,8 @@ gem 'bundler', '>= 1.9'
 gem 'coveralls_reborn', require: false
 gem 'guard'
 gem 'guard-rspec'
-gem 'json' # for simplecov
-gem 'json_pure', '~> 2.8.1'
+gem 'json_pure', '~> 2.8.1'  # for simplecov
+gem 'panolint' # for rubocop on CI
 gem 'rake', '>= 10.0'
 gem 'rake-hooks'
 gem 'rspec', '>= 3.0'
