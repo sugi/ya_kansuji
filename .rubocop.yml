@@ -1,9 +1,14 @@
 inherit_from: .rubocop_todo.yml
 
+plugins:
+  - rubocop-performance
+  - rubocop-rspec
+  - rubocop-rake
+
 AllCops:
   AllowSymlinksInCacheRootDirectory: true
+  NewCops: enable
   Exclude:
-    - spec/**/*
     - tmp/**/*
 
 Gemspec/RequiredRubyVersion:
@@ -28,7 +33,7 @@ Style/PercentLiteralDelimiters:
 Style/RegexpLiteral:
   EnforcedStyle: mixed
 
-Layout/IndentHeredoc:
+Layout/HeredocIndentation:
   Enabled: false # Disable for ruby 2.0...
 
 # Configuration parameters: EnforcedStyle, SingleLineConditionsOnly, IncludeTernaryExpressions.
@@ -39,14 +44,25 @@ Style/ConditionalAssignment:
 # Offense count: 1
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
-Metrics/LineLength:
+Layout/LineLength:
   Max: 94
+  Exclude:
+    - 'spec/**/*'
+    - 'test/**/*'
 
 Style/FormatString:
   EnforcedStyle: percent
 
-
 Style/Documentation:
+  AllowedConstants:
+    - Formatter
   Exclude:
     - 'spec/**/*'
     - 'test/**/*'
+  
+RSpec/ExampleLength:
+  Max: 30
+
+RSpec/MultipleExpectations:
+  Enabled: false
+

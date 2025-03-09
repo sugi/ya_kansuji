@@ -7,8 +7,9 @@ require 'ya_kansuji/core_refine'
 module YaKansuji
   UNIT_EXP3 = %w(十 百 千).freeze
   UNIT_EXP4 = %w(万 億 兆 京 垓 𥝱 穣 溝 澗 正 載 極 恒河沙 阿僧祇 那由他 不可思議 無量大数).freeze
-  NUM_ALT_CHARS = '〇一二三四五六七八九０１２３４５６７８９零壱壹弌弐貳貮参參弎肆伍陸漆質柒捌玖拾什陌佰阡仟萬秭'.freeze
-  NUM_NORMALIZED_CHARS = '01234567890123456789011122233345677789十十百百千千万𥝱'.freeze
+  NUM_ALT_CHARS = '〇一二三四五六七八九０１２３４５６７８９零壱壹弌弐貳貮参參弎肆伍陸漆質柒捌玖拾什陌佰阡仟萬秭'
+  NUM_NORMALIZED_CHARS = '01234567890123456789011122233345677789十十百百千千万𥝱'
+  # rubocop:disable Lint/DuplicateRegexpCharacterClassElement
   REGEXP_PART = %r{
     [
       #{(NUM_ALT_CHARS + NUM_NORMALIZED_CHARS).chars.uniq.join}
@@ -17,6 +18,7 @@ module YaKansuji
     ] |
     #{UNIT_EXP4.find_all { |u| u.length > 1 }.join('|')}
   }x.freeze
+  # rubocop:enable Lint/DuplicateRegexpCharacterClassElement
   REGEXP = /(?:#{REGEXP_PART})+/.freeze
   @@formatters = {}
 
@@ -24,7 +26,7 @@ module YaKansuji
 
   def to_i(str)
     str = str.to_s.tr(NUM_ALT_CHARS, NUM_NORMALIZED_CHARS)
-    str.gsub!(/[,，、:space:]/, '')
+    str.gsub!(/[,，、[:space:]]/, '')
     matched = REGEXP.match(str) or return 0
     ret3 = 0
     ret4 = 0
@@ -63,11 +65,11 @@ module YaKansuji
           curnum = nil
         end
         ret3 = 1 if ret3.zero?
-        ret4 += ret3 * 10**((UNIT_EXP4.index(c) + 1) * 4)
+        ret4 += ret3 * (10**((UNIT_EXP4.index(c) + 1) * 4))
         ret3 = 0
       when *UNIT_EXP3
         curnum ||= 1
-        ret3 += curnum * 10**(UNIT_EXP3.index(c) + 1)
+        ret3 += curnum * (10**(UNIT_EXP3.index(c) + 1))
         curnum = nil
       end
     end

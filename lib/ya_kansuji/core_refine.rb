@@ -2,15 +2,15 @@
 
 require 'ya_kansuji'
 
-# String and Integer refinements with YaKansuji
 module YaKansuji
+  # String and Integer refinements with YaKansuji
   module CoreRefine
     refine String do
       def to_i(base = nil)
         if base.nil? || base == :kan || base == :kansuji
           YaKansuji.to_i self
         else
-          super base
+          super
         end
       end
     end

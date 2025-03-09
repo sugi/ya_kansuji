@@ -1,6 +1,7 @@
 # Simple kansuji formatter
 module YaKansuji
   module Formatter
+    # Formatter for Jpanese lawyer style kansuji
     module Lawyer
       module_function
 
@@ -9,7 +10,7 @@ module YaKansuji
 
         ret = ''
         (UNIT_EXP4.reverse + ['']).each_with_index do |unit4, ridx4|
-          i4 = (num / 10_000**(UNIT_EXP4.size - ridx4)).to_i % 10_000
+          i4 = (num / (10_000**(UNIT_EXP4.size - ridx4))).to_i % 10_000
           next if i4.zero?
 
           if i4 == 1
@@ -17,7 +18,7 @@ module YaKansuji
             next
           end
 
-          ret << (i4 >= 1000 ? "#{i4.to_s[0]},#{i4.to_s[1..-1]}" : i4.to_s) + unit4
+          ret << ((i4 >= 1000 ? "#{i4.to_s[0]},#{i4.to_s[1..-1]}" : i4.to_s) + unit4)
         end
         ret
       end

@@ -18,16 +18,16 @@ Metrics/BlockLength:
 
 # Offense count: 1
 Metrics/CyclomaticComplexity:
-  Max: 15
+  Max: 20
 
 # Offense count: 1
 # Configuration parameters: CountComments, ExcludedMethods.
 Metrics/MethodLength:
-  Max: 46
+  Max: 60
 
 # Offense count: 1
 Metrics/PerceivedComplexity:
-  Max: 10
+  Max: 20
 
 # Offense count: 1
 Style/ClassVars:
