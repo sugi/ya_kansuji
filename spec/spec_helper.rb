@@ -1,16 +1,11 @@
 require 'bundler/setup'
 unless defined? JRUBY_VERSION
   require 'simplecov'
-  require 'coveralls'
-  Coveralls.wear!
-
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
                                                                    SimpleCov::Formatter::HTMLFormatter,
                                                                    Coveralls::SimpleCov::Formatter
                                                                  ])
-  SimpleCov.start do
-    add_filter 'spec/'
-  end
+  SimpleCov.start
 end
 
 require 'ya_kansuji'
