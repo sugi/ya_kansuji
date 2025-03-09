@@ -1,8 +1,8 @@
 # YaKansuji - もう一つの (やりすぎ) ruby 漢数字ライブラリ
 
 [<img src="https://badge.fury.io/rb/ya_kansuji.svg" alt="Gem Version" />](https://badge.fury.io/rb/ya_kansuji)
-[<img src="https://travis-ci.org/sugi/ya_kansuji.svg?branch=master" alt="Build Status" />](https://travis-ci.org/sugi/ya_kansuji)
-[<img src="https://coveralls.io/repos/sugi/ya_kansuji/badge.svg?branch=master&service=github" alt="Coverage Status" />](https://coveralls.io/github/sugi/ya_kansuji?branch=master)
+[<img src="https://github.com/sugi/ya_kansuji/actions/workflows/ruby.yml/badge.svg" alt="Build Status" />](https://github.com/sugi/ya_kansuji/actions/workflows/ruby.yml)
+[<img src="https://coveralls.io/repos/github/sugi/ya_kansuji/badge.svg?branch=master" alt="Coverage Status" />](https://coveralls.io/github/sugi/ya_kansuji?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/007f79c6f7f6e82daa20/maintainability)](https://codeclimate.com/github/sugi/ya_kansuji/maintainability)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/048e7a2f52cb48908c4deba7ce696f08)](https://app.codacy.com/gh/sugi/ya_kansuji/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 

@@ -17,3 +17,4 @@ gem 'rubocop-rspec', '~> 3.5', require: false
 gem 'travis'
 gem 'travis-lint'
 gem 'simplecov'
+gem 'coveralls_reborn', require: false

@@ -1,6 +1,6 @@
 name: Ruby Tests
 
-on: [pull_request]
+on: [push, pull_request]
 
 jobs:
   test:
@@ -27,3 +27,19 @@ jobs:
         run: |
           bundle update
           bundle exec rspec
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel: true
+          flag-name: ruby-${{ matrix.ruby-version }}
+
+  finish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
