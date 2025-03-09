@@ -19,4 +19,4 @@ jobs:
       - name: Install dependencies
         run: bundle install
       - name: Run RuboCop
-        run: bundle exec rubocop --parallel --format github --ignore-parent-exclusion
+        run: bundle exec rubocop --parallel --format github --only-recognized-file-types
