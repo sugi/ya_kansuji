@@ -1,5 +1,5 @@
 RSpec.describe YaKansuji do
-  u = described_class
+  let(:u) { described_class }
 
   it 'has a version number' do
     expect(YaKansuji::VERSION).not_to be_nil
@@ -35,5 +35,47 @@ RSpec.describe YaKansuji do
     expect(u.to_i('1,000億 5,432万')).to eq 100_054_320_000
     expect(u.to_i('12,345')).to eq 12_345
     expect(u.to_i('二万、五十')).to eq 20_050
+  end
+
+  it 'does not treat double quote as a numeric character' do
+    expect(u.to_i(%(1"000))).to eq 1
+    expect(u.to_i(%(一"二))).to eq 1
+  end
+
+  it 'still matches the tail of the character class after the fix' do
+    expect(u.to_i('丗')).to eq 30
+  end
+
+  it 'can parse a leading マイナス as a negative sign' do
+    expect(u.to_i('マイナス千二百三十四')).to eq(-1234)
+    expect(u.to_i('マイナス12,345')).to eq(-12_345)
+    expect(u.to_i('マイナス 五十')).to eq(-50)
+    expect(u.to_i('マイナス〇')).to eq 0
+    expect(u.to_i('マイナス思考で3日')).to eq 3
+    expect(u.to_i('マイナス')).to eq 0
+    expect(u.to_i('五マイナス三')).to eq 5
+  end
+
+  it 'can format a negative number with a leading マイナス' do
+    expect(u.to_kan(-1234)).to eq 'マイナス千二百三十四'
+    expect(u.to_kan(-0.5)).to eq '零'
+    expect(u.to_kan(-10_003, :gov)).to eq 'マイナス1万, 3'
+    expect(u.to_kan('-123')).to eq 'マイナス百二十三'
+  end
+
+  it 'round-trips a negative number through to_kan and to_i' do
+    expect(u.to_i(u.to_kan(-98_765))).to eq(-98_765)
+  end
+
+  it 'does not treat ASCII/Unicode minus signs as negative markers' do
+    expect(u.to_i('2019-04')).to eq 2019
+    expect(u.to_i('-123')).to eq 123
+    expect(u.to_i('−123')).to eq 123
+  end
+
+  it 'keeps minus round-trip across builtin formatters' do
+    %i(simple gov lawyer judic_v judic_h).each do |fmt|
+      expect(u.to_i(u.to_kan(-98_765, fmt))).to eq(-98_765)
+    end
   end
 end

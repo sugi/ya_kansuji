@@ -11,10 +11,11 @@ jobs:
         ruby-version:
           - "2.7.8"
           - "3.0.7"
-          - "3.1.6"
-          - "3.2.7"
-          - "3.3.7"
-          - "3.4.2"
+          - "3.1.7"
+          - "3.2.11"
+          - "3.3.11"
+          - "3.4.10"
+          - "4.0.5"
           - "head"
 
     steps:
@@ -33,6 +34,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           flag-name: ruby-${{ matrix.ruby-version }}
+          fail-on-error: false
 
   finish:
     needs: test
@@ -43,3 +45,4 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
+          fail-on-error: false
