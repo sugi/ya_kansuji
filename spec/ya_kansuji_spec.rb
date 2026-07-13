@@ -1,5 +1,5 @@
 RSpec.describe YaKansuji do
-  u = described_class
+  let(:u) { described_class }
 
   it 'has a version number' do
     expect(YaKansuji::VERSION).not_to be_nil
