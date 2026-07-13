@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'ya_kansuji'
-
 module YaKansuji
   # String and Integer refinements with YaKansuji
   module CoreRefine
@@ -16,9 +14,11 @@ module YaKansuji
     end
 
     refine Integer do
-      def to_kan(formatter = :simple)
-        YaKansuji.to_kan self, formatter
+      def to_kan(formatter = :simple, options = {})
+        YaKansuji.to_kan self, formatter, options
       end
     end
   end
 end
+
+require 'ya_kansuji' unless YaKansuji.respond_to?(:to_i) && YaKansuji.respond_to?(:to_kan)

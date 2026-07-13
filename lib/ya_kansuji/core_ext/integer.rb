@@ -4,7 +4,7 @@ require 'ya_kansuji'
 
 # Core extension by kansuji
 class Integer
-  def to_kan
-    YaKansuji.to_kan self
+  def to_kan(formatter = :simple, options = {})
+    YaKansuji.to_kan self, formatter, options
   end
 end

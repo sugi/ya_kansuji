@@ -3,6 +3,21 @@ name: Ruby Tests
 on: [pull_request]
 
 jobs:
+  minimum-supported-ruby:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up minimum supported Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "2.3.8"
+      - name: Run compatibility smoke test without development dependencies
+        run: |
+          ruby -Ilib -rya_kansuji -e 'raise unless %i(simple gov lawyer judic_v judic_h).all? { |f| YaKansuji.to_i(YaKansuji.to_kan(1234, f)) == 1234 }'
+          ruby -Ilib -rya_kansuji -e 'begin; YaKansuji.to_kan(10**72); rescue RangeError; exit 0; end; exit 1'
+          ruby -Ilib -e 'require "ya_kansuji/core_refine"; using YaKansuji::CoreRefine; raise unless 12.to_kan(:gov) == "12" && "十二".to_i(:kansuji) == 12'
+          ruby -Ilib -e 'require "ya_kansuji/core_ext"; raise unless 12.to_kan(:gov) == "12" && "十二".to_i(:kansuji) == 12'
+
   test:
     runs-on: ubuntu-latest
     strategy:

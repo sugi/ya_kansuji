@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Simple kansuji formatter
 module YaKansuji
   module Formatter
@@ -8,7 +10,7 @@ module YaKansuji
       def call(num, _options = {})
         return '〇' if num.zero?
 
-        ret = ''
+        ret = +''
         head = true
         (UNIT_EXP4.reverse + ['']).each_with_index do |unit4, ridx4|
           i4 = (num / (10_000**(UNIT_EXP4.size - ridx4))).to_i % 10_000
