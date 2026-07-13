@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Simple kansuji formatter
 module YaKansuji
   module Formatter
@@ -8,7 +10,7 @@ module YaKansuji
       def call(num, _options = {})
         return '0' if num.zero?
 
-        ret = ''
+        ret = +''
         chunks = Formatter.split_by_unit4(num)
         (chunks.size - 1).downto(0) do |idx4|
           i4 = chunks[idx4]

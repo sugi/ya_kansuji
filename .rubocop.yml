@@ -14,7 +14,7 @@ AllCops:
 
 Gemspec/RequiredRubyVersion:
   Exclude:
-    - 'ya_kansuji.gemspec' # Required to support 2.0
+    - 'ya_kansuji.gemspec' # Required to support 2.3
 
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
@@ -35,7 +35,7 @@ Style/RegexpLiteral:
   EnforcedStyle: mixed
 
 Layout/HeredocIndentation:
-  Enabled: false # Disable for ruby 2.0...
+  Enabled: false # Disable for Ruby 2.3
 
 # Configuration parameters: EnforcedStyle, SingleLineConditionsOnly, IncludeTernaryExpressions.
 # SupportedStyles: assign_to_condition, assign_inside_condition
@@ -66,4 +66,3 @@ RSpec/ExampleLength:
 
 RSpec/MultipleExpectations:
   Enabled: false
-

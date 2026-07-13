@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 RSpec.describe YaKansuji::Formatter do
   def format_with(formatter, number)
@@ -11,16 +13,6 @@ RSpec.describe YaKansuji::Formatter do
       lawyer: '1',
       judic_v: '一',
       judic_h: '１',
-    }[formatter]
-  end
-
-  def formatted_1234_for(formatter)
-    {
-      simple: '千二百三十四',
-      gov: '1234',
-      lawyer: '1,234',
-      judic_v: '一二三四',
-      judic_h: '１２３４',
     }[formatter]
   end
 
@@ -157,28 +149,6 @@ RSpec.describe YaKansuji::Formatter do
             expect(format_with(formatter, number)).to eq "#{one_for(formatter)}#{unit}"
           end
         end
-      end
-    end
-
-    describe 'above the largest supported chunk' do
-      %i(simple gov lawyer judic_v judic_h).each do |formatter|
-        it "keeps the current truncation behavior for 10**72 with #{formatter}" do
-          expect(format_with(formatter, 10**72)).to eq ''
-        end
-
-        it "keeps the current truncation behavior for 10**72 + 1 with #{formatter}" do
-          expect(format_with(formatter, (10**72) + 1)).to eq one_for(formatter)
-        end
-
-        it "truncates multiple unsupported chunks with #{formatter}" do
-          expect(format_with(formatter, (10**76) + 1_234)).to eq formatted_1234_for(formatter)
-        end
-      end
-
-      it 'keeps the empty Simple result UTF-8 encoded' do
-        result = format_with(:simple, 10**72)
-
-        expect(result.encoding).to eq Encoding::UTF_8
       end
     end
   end

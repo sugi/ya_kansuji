@@ -18,7 +18,7 @@ module YaKansuji
           i4 = chunks[idx4]
           next if i4.zero?
 
-          ret ||= ''.dup
+          ret ||= +''
           unit4 = Formatter::UNIT4_UNITS[idx4]
           if i4 == 1
             ret << '一' << unit4
