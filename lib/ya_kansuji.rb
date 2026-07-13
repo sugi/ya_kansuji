@@ -19,7 +19,7 @@ module YaKansuji
     #{UNIT_EXP4.find_all { |u| u.length > 1 }.join('|')}
   }x.freeze
   # rubocop:enable Lint/DuplicateRegexpCharacterClassElement
-  REGEXP = /(?:#{REGEXP_PART})+/.freeze
+  REGEXP = /(?:マイナス)?(?:#{REGEXP_PART})+/.freeze
   @@formatters = {}
 
   module_function
@@ -77,7 +77,8 @@ module YaKansuji
       ret3 += curnum
       curnum = nil
     end
-    ret4 + ret3
+    ret = ret4 + ret3
+    matched[0].start_with?('マイナス') ? -ret : ret
   end
 
   def register_formatter(sym, proc = nil, &block)
@@ -100,6 +101,8 @@ module YaKansuji
 
   def to_kan(num, formatter = :simple, options = {})
     num.respond_to?(:_to_i_ya_kansuji_orig) ? num = num._to_i_ya_kansuji_orig : num = num.to_i
+    return "マイナス#{to_kan(-num, formatter, options)}" if num.negative?
+
     if formatter.respond_to? :call
       formatter.call num, options
     elsif @@formatters[formatter]

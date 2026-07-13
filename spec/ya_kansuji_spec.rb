@@ -45,4 +45,24 @@ RSpec.describe YaKansuji do
   it 'still matches the tail of the character class after the fix' do
     expect(u.to_i('丗')).to eq 30
   end
+
+  it 'can parse a leading マイナス as a negative sign' do
+    expect(u.to_i('マイナス千二百三十四')).to eq(-1234)
+    expect(u.to_i('マイナス12,345')).to eq(-12_345)
+    expect(u.to_i('マイナス 五十')).to eq(-50)
+    expect(u.to_i('マイナス〇')).to eq 0
+    expect(u.to_i('マイナス思考で3日')).to eq 3
+    expect(u.to_i('マイナス')).to eq 0
+    expect(u.to_i('五マイナス三')).to eq 5
+  end
+
+  it 'can format a negative number with a leading マイナス' do
+    expect(u.to_kan(-1234)).to eq 'マイナス千二百三十四'
+    expect(u.to_kan(-10_003, :gov)).to eq 'マイナス1万, 3'
+    expect(u.to_kan('-123')).to eq 'マイナス百二十三'
+  end
+
+  it 'round-trips a negative number through to_kan and to_i' do
+    expect(u.to_i(u.to_kan(-98_765))).to eq(-98_765)
+  end
 end

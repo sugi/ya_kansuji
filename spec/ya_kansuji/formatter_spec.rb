@@ -55,4 +55,9 @@ RSpec.describe YaKansuji::Formatter do
       expect(YaKansuji.to_kan(num, :rule4)).to eq (num % 4).to_s
     end
   end
+
+  it 'passes only the absolute value to the formatter; to_kan prepends the sign' do
+    YaKansuji.register_formatter :abs_check, ->(num, _opts = {}) { num.to_s }
+    expect(YaKansuji.to_kan(-42, :abs_check)).to eq 'マイナス42'
+  end
 end
