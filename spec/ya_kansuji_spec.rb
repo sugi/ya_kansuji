@@ -36,4 +36,13 @@ RSpec.describe YaKansuji do
     expect(u.to_i('12,345')).to eq 12_345
     expect(u.to_i('二万、五十')).to eq 20_050
   end
+
+  it 'does not treat double quote as a numeric character' do
+    expect(u.to_i(%(1"000))).to eq 1
+    expect(u.to_i(%(一"二))).to eq 1
+  end
+
+  it 'still matches the tail of the character class after the fix' do
+    expect(u.to_i('丗')).to eq 30
+  end
 end

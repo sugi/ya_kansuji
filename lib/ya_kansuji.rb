@@ -13,7 +13,7 @@ module YaKansuji
   REGEXP_PART = %r{
     [
       #{(NUM_ALT_CHARS + NUM_NORMALIZED_CHARS).chars.uniq.join}
-      #{(UNIT_EXP3 + UNIT_EXP4).find_all { |u| u.length == 1 }}
+      #{(UNIT_EXP3 + UNIT_EXP4).find_all { |u| u.length == 1 }.join}
       卄廿卅丗卌皕
     ] |
     #{UNIT_EXP4.find_all { |u| u.length > 1 }.join('|')}
