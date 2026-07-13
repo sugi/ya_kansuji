@@ -7,7 +7,7 @@ class String
   alias _to_i_ya_kansuji_orig to_i unless defined?(_to_i_ya_kansuji_orig)
 
   def to_i(base = nil)
-    if base.nil? || base == :kan
+    if base.nil? || base == :kan || base == :kansuji
       YaKansuji.to_i self
     else
       _to_i_ya_kansuji_orig(base)

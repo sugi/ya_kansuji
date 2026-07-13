@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module YaKansuji
   module Formatter
     # Formatter for Japan government-style kansuji

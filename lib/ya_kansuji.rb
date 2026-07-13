@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require 'ya_kansuji/version'
-require 'ya_kansuji/core_refine'
 
 # Yet another Kansuji library for ruby.
 module YaKansuji
   UNIT_EXP3 = %w(十 百 千).freeze
   UNIT_EXP4 = %w(万 億 兆 京 垓 𥝱 穣 溝 澗 正 載 極 恒河沙 阿僧祇 那由他 不可思議 無量大数).freeze
+  MAX_VALUE = (10_000**(UNIT_EXP4.size + 1)) - 1
   NUM_ALT_CHARS = '〇一二三四五六七八九０１２３４５６７８９零壱壹弌弐貳貮参參弎肆伍陸漆質柒捌玖拾什陌佰阡仟萬秭'
   NUM_NORMALIZED_CHARS = '01234567890123456789011122233345677789十十百百千千万𥝱'
   # rubocop:disable Lint/DuplicateRegexpCharacterClassElement
@@ -101,6 +101,10 @@ module YaKansuji
 
   def to_kan(num, formatter = :simple, options = {})
     num.respond_to?(:_to_i_ya_kansuji_orig) ? num = num._to_i_ya_kansuji_orig : num = num.to_i
+    if num.abs > MAX_VALUE
+      raise RangeError, "Value must be between #{-MAX_VALUE} and #{MAX_VALUE}"
+    end
+
     return "マイナス#{to_kan(-num, formatter, options)}" if num.negative?
 
     if formatter.respond_to? :call
@@ -118,3 +122,4 @@ require 'ya_kansuji/formatter/gov'
 require 'ya_kansuji/formatter/lawyer'
 require 'ya_kansuji/formatter/judic_v'
 require 'ya_kansuji/formatter/judic_h'
+require 'ya_kansuji/core_refine' unless defined?(YaKansuji::CoreRefine)

@@ -1,3 +1,10 @@
+2026-07-14  Tatsuki Sugiura  <sugi@nemui.org>
+
+	* Require Ruby 2.3.0 or later
+	* Raise RangeError when formatting values outside the supported 72-digit range
+	* Align direct core extension APIs with refinements
+	* Avoid circular require warnings between the main and refinement entrypoints
+
 2026-07-13  Tatsuki Sugiura  <sugi@nemui.org>
 
 	* Version: 1.1.0
@@ -19,4 +26,3 @@
 2019-04-15  Tatsuki Sugiura  <sugi@nemui.org>
 
 	* Version: 0.1.0
-

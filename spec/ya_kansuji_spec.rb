@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe YaKansuji do
   let(:u) { described_class }
 
@@ -76,6 +78,29 @@ RSpec.describe YaKansuji do
   it 'keeps minus round-trip across builtin formatters' do
     %i(simple gov lawyer judic_v judic_h).each do |fmt|
       expect(u.to_i(u.to_kan(-98_765, fmt))).to eq(-98_765)
+    end
+  end
+
+  describe '.to_kan supported range' do
+    let(:first_unsupported_value) { 10**72 }
+    let(:builtin_formatters) { %i(simple gov lawyer judic_v judic_h) }
+
+    it 'formats the largest supported value without losing digits' do
+      value = first_unsupported_value - 1
+
+      expect(u.to_i(u.to_kan(value))).to eq value
+      expect(value).to eq described_class::MAX_VALUE
+    end
+
+    it 'validates the value after applying the existing integer coercion' do
+      expect { u.to_kan(first_unsupported_value.to_s) }.to raise_error(RangeError)
+    end
+
+    it 'rejects positive and negative out-of-range values for every builtin formatter' do
+      builtin_formatters.each do |formatter|
+        expect { u.to_kan(first_unsupported_value, formatter) }.to raise_error(RangeError)
+        expect { u.to_kan(-first_unsupported_value, formatter) }.to raise_error(RangeError)
+      end
     end
   end
 end

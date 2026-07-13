@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 RSpec.describe YaKansuji::Formatter do
   it 'can register formatter with proc' do
