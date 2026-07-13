@@ -1,9 +1,12 @@
 2026-07-14  Tatsuki Sugiura  <sugi@nemui.org>
 
+	* Version: 1.2.0
 	* Require Ruby 2.3.0 or later
+	* Accept formatter and options on Integer#to_kan core extension
+	* Accept :kansuji as base symbol on String#to_i core extension
 	* Raise RangeError when formatting values outside the supported 72-digit range
-	* Align direct core extension APIs with refinements
 	* Avoid circular require warnings between the main and refinement entrypoints
+	* Optimize formatter chunk processing (up to ~9x faster, far fewer allocations)
 
 2026-07-13  Tatsuki Sugiura  <sugi@nemui.org>
 
