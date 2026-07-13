@@ -58,11 +58,24 @@ RSpec.describe YaKansuji do
 
   it 'can format a negative number with a leading マイナス' do
     expect(u.to_kan(-1234)).to eq 'マイナス千二百三十四'
+    expect(u.to_kan(-0.5)).to eq '零'
     expect(u.to_kan(-10_003, :gov)).to eq 'マイナス1万, 3'
     expect(u.to_kan('-123')).to eq 'マイナス百二十三'
   end
 
   it 'round-trips a negative number through to_kan and to_i' do
     expect(u.to_i(u.to_kan(-98_765))).to eq(-98_765)
+  end
+
+  it 'does not treat ASCII/Unicode minus signs as negative markers' do
+    expect(u.to_i('2019-04')).to eq 2019
+    expect(u.to_i('-123')).to eq 123
+    expect(u.to_i('−123')).to eq 123
+  end
+
+  it 'keeps minus round-trip across builtin formatters' do
+    %i(simple gov lawyer judic_v judic_h).each do |fmt|
+      expect(u.to_i(u.to_kan(-98_765, fmt))).to eq(-98_765)
+    end
   end
 end
