@@ -9,10 +9,12 @@ module YaKansuji
         return '0' if num.zero?
 
         ret = ''
-        (UNIT_EXP4.reverse + ['']).each_with_index do |unit4, ridx4|
-          i4 = (num / (10_000**(UNIT_EXP4.size - ridx4))).to_i % 10_000
+        chunks = Formatter.split_by_unit4(num)
+        (chunks.size - 1).downto(0) do |idx4|
+          i4 = chunks[idx4]
           next if i4.zero?
 
+          unit4 = Formatter::UNIT4_UNITS[idx4]
           if i4 == 1
             ret << "1#{unit4}"
             next

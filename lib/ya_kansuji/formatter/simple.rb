@@ -4,33 +4,43 @@ module YaKansuji
   module Formatter
     # Simple kansuji formatter
     module Simple
+      DIGITS = %w(一 二 三 四 五 六 七 八 九).freeze
+      UNITS = ([''] + UNIT_EXP3).freeze
+
       module_function
 
       def call(num, _options = {})
         return '零' if num.zero?
 
-        ret = ''
-        (UNIT_EXP4.reverse + ['']).each_with_index do |unit4, ridx4|
-          i4 = (num / (10_000**(UNIT_EXP4.size - ridx4))).to_i % 10_000
+        ret = nil
+        chunks = Formatter.split_by_unit4(num)
+        (chunks.size - 1).downto(0) do |idx4|
+          i4 = chunks[idx4]
           next if i4.zero?
 
+          ret ||= ''.dup
+          unit4 = Formatter::UNIT4_UNITS[idx4]
           if i4 == 1
-            ret += "一#{unit4}"
+            ret << '一' << unit4
             next
           end
-          (UNIT_EXP3.reverse + ['']).each_with_index do |unit3, ridx3|
-            i3 = (i4 / (10**(UNIT_EXP3.size - ridx3))).to_i % 10
+
+          divisor = 1000
+          3.downto(0) do |idx3|
+            i3 = (i4 / divisor) % 10
+            divisor /= 10
             next if i3.zero?
 
-            if i3 == 1 && unit3 != ''
-              ret += unit3
+            unit3 = UNITS[idx3]
+            if i3 == 1 && !unit3.empty?
+              ret << unit3
             else
-              ret += i3.to_s.tr('123456789', '一二三四五六七八九') + unit3
+              ret << DIGITS[i3 - 1] << unit3
             end
           end
-          ret += unit4
+          ret << unit4
         end
-        ret
+        ret || ''
       end
       YaKansuji.register_formatter :simple, self
     end
