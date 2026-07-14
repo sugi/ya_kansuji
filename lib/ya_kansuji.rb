@@ -138,8 +138,8 @@ module YaKansuji
   end
 
   def to_kan(num, formatter = :simple, options = {})
-    num.respond_to?(:_to_i_ya_kansuji_orig) ? num = num._to_i_ya_kansuji_orig : num = num.to_i
-    if num.abs > MAX_VALUE
+    num = normalize_value(num)
+    if num.truncate.abs > MAX_VALUE
       raise RangeError, "Value must be between #{-MAX_VALUE} and #{MAX_VALUE}"
     end
 
