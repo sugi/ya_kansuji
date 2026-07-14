@@ -22,6 +22,8 @@ module YaKansuji
 
     def split_fraction(num)
       num = YaKansuji.normalize_value(num)
+      raise ArgumentError, 'Value must be non-negative' if num.negative?
+
       return [num, EMPTY_FRACTION] if num.is_a?(Integer)
 
       int = num.truncate

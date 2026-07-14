@@ -44,6 +44,11 @@ RSpec.describe YaKansuji::Formatter do
     it 'handles all 21 digits down to 10**-21' do
       expect(split(Rational(1, 3))).to eq [0, [3] * 21]
     end
+
+    it 'rejects negative values' do
+      expect { split(-0.25) }.to raise_error ArgumentError
+      expect { split(Rational(-3, 2)) }.to raise_error ArgumentError
+    end
   end
 
   it 'can register formatter with proc' do
