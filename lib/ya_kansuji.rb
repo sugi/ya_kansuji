@@ -96,6 +96,7 @@ module YaKansuji
     return num.to_i unless num.respond_to?(:truncate)
 
     num = rational_from_float(num) if num.is_a?(Float)
+    num = num.to_r if num.respond_to?(:to_r)
     int = num.truncate
     scaled = ((num - int) * FRAC_BASE).round
     if scaled.abs >= FRAC_BASE

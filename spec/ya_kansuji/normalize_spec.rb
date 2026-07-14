@@ -72,6 +72,17 @@ RSpec.describe YaKansuji do
       expect(u.normalize_value(Complex(5, 0))).to eq 5
       expect { u.normalize_value(Complex(1, 2)) }.to raise_error RangeError
     end
+
+    it 'rounds BigDecimal ties independent of the global rounding mode' do
+      tie = BigDecimal("0.#{'1' * 20}15")
+      old_mode = BigDecimal.mode(BigDecimal::ROUND_MODE)
+      begin
+        BigDecimal.mode(BigDecimal::ROUND_MODE, :down)
+        expect(u.normalize_value(tie)).to eq Rational("0.#{'1' * 20}2")
+      ensure
+        BigDecimal.mode(BigDecimal::ROUND_MODE, old_mode)
+      end
+    end
   end
 end
 # rubocop:enable RSpec/SpecFilePathFormat
