@@ -10,10 +10,11 @@ module YaKansuji
       module_function
 
       def call(num, _options = {})
-        return '零' if num.zero?
+        int, frac = Formatter.split_fraction(num)
+        return '零' if int.zero? && frac.empty?
 
         ret = nil
-        chunks = Formatter.split_by_unit4(num)
+        chunks = Formatter.split_by_unit4(int)
         (chunks.size - 1).downto(0) do |idx4|
           i4 = chunks[idx4]
           next if i4.zero?
@@ -39,6 +40,13 @@ module YaKansuji
             end
           end
           ret << unit4
+        end
+        unless frac.empty?
+          ret << '・' if ret
+          ret ||= +''
+          frac.each_with_index do |d, idx|
+            ret << DIGITS[d - 1] << UNIT_FRAC[idx] unless d.zero?
+          end
         end
         ret || ''
       end
