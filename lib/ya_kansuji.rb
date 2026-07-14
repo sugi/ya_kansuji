@@ -7,6 +7,9 @@ module YaKansuji
   UNIT_EXP3 = %w(十 百 千).freeze
   UNIT_EXP4 = %w(万 億 兆 京 垓 𥝱 穣 溝 澗 正 載 極 恒河沙 阿僧祇 那由他 不可思議 無量大数).freeze
   MAX_VALUE = (10_000**(UNIT_EXP4.size + 1)) - 1
+  UNIT_FRAC = %w(分 厘 毛 糸 忽 微 繊 沙 塵 埃 渺 漠
+                 模糊 逡巡 須臾 瞬息 弾指 刹那 六徳 虚空 清浄).freeze
+  FRAC_BASE = 10**UNIT_FRAC.size
   NUM_ALT_CHARS = '〇一二三四五六七八九０１２３４５６７８９零壱壹弌弐貳貮参參弎肆伍陸漆質柒捌玖拾什陌佰阡仟萬秭'
   NUM_NORMALIZED_CHARS = '01234567890123456789011122233345677789十十百百千千万𥝱'
   # rubocop:disable Lint/DuplicateRegexpCharacterClassElement
@@ -81,6 +84,44 @@ module YaKansuji
     matched[0].start_with?('マイナス') ? -ret : ret
   end
 
+  def normalize_value(num)
+    return num if num.is_a?(Integer)
+
+    unless num.is_a?(Numeric)
+      return num._to_i_ya_kansuji_orig if num.respond_to?(:_to_i_ya_kansuji_orig)
+
+      return num.to_i
+    end
+
+    return num.to_i unless num.respond_to?(:truncate)
+
+    num = rational_from_float(num) if num.is_a?(Float)
+    num = num.to_r if num.respond_to?(:to_r)
+    int = num.truncate
+    scaled = ((num - int) * FRAC_BASE).round
+    if scaled.abs >= FRAC_BASE
+      if scaled.negative?
+        int -= 1
+      else
+        int += 1
+      end
+      scaled = 0
+    end
+    scaled.zero? ? int : Rational((int * FRAC_BASE) + scaled, FRAC_BASE)
+  end
+
+  def rational_from_float(num)
+    raise FloatDomainError, num.to_s if num.nan? || num.infinite?
+
+    m = /\A(-?)(\d+)(?:\.(\d+))?(?:e([+-]?\d+))?\z/.match(num.to_s)
+    raise FloatDomainError, num.to_s unless m
+
+    ret = Rational(Integer(m[2] + (m[3] || ''), 10))
+    ret = -ret unless m[1].empty?
+    exp = (m[4] ? Integer(m[4], 10) : 0) - (m[3] ? m[3].size : 0)
+    exp >= 0 ? ret * (10**exp) : ret / (10**-exp)
+  end
+
   def register_formatter(sym, proc = nil, &block)
     if block_given?
       @@formatters[sym] = block
@@ -100,8 +141,8 @@ module YaKansuji
   end
 
   def to_kan(num, formatter = :simple, options = {})
-    num.respond_to?(:_to_i_ya_kansuji_orig) ? num = num._to_i_ya_kansuji_orig : num = num.to_i
-    if num.abs > MAX_VALUE
+    num = normalize_value(num)
+    if num.truncate.abs > MAX_VALUE
       raise RangeError, "Value must be between #{-MAX_VALUE} and #{MAX_VALUE}"
     end
 

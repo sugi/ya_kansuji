@@ -18,6 +18,12 @@ module YaKansuji
         YaKansuji.to_kan self, formatter, options
       end
     end
+
+    refine Numeric do
+      def to_kan(formatter = :simple, options = {})
+        YaKansuji.to_kan self, formatter, options
+      end
+    end
   end
 end
 

@@ -8,14 +8,15 @@ module YaKansuji
       module_function
 
       def call(num, _options = {})
-        return '０' if num.zero?
+        int, frac = Formatter.split_fraction(num)
+        return '０' if int.zero? && frac.empty?
 
         ret = +''
         head = true
-        chunks = Formatter.split_by_unit4(num)
+        chunks = Formatter.split_by_unit4(int)
         (chunks.size - 1).downto(0) do |idx4|
           i4 = chunks[idx4]
-          next if i4.zero?
+          next if i4.zero? && !(idx4.zero? && !frac.empty?)
 
           unit4 = Formatter::UNIT4_UNITS[idx4]
           if head
@@ -25,6 +26,7 @@ module YaKansuji
           end
           head = false
         end
+        ret << '．' << frac.join unless frac.empty?
         ret.tr('0-9', '０-９')
       end
       YaKansuji.register_formatter :judic_h, self

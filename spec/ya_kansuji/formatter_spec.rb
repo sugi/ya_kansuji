@@ -16,6 +16,42 @@ RSpec.describe YaKansuji::Formatter do
     }[formatter]
   end
 
+  describe '.split_fraction' do
+    def split(num)
+      YaKansuji::Formatter.split_fraction(num)
+    end
+
+    it 'returns the integer part and an empty fraction for integers' do
+      expect(split(5)).to eq [5, []]
+      expect(split(0)).to eq [0, []]
+    end
+
+    it 'splits fraction digits most significant first' do
+      expect(split(Rational('123.456'))).to eq [123, [4, 5, 6]]
+      expect(split(Rational(1, 2))).to eq [0, [5]]
+    end
+
+    it 'keeps inner zeros and strips trailing zeros' do
+      expect(split(Rational('1.05'))).to eq [1, [0, 5]]
+      expect(split(Rational('1.50'))).to eq [1, [5]]
+    end
+
+    it 'normalizes raw floats before splitting' do
+      expect(split(0.25)).to eq [0, [2, 5]]
+      expect(split(2.0)).to eq [2, []]
+    end
+
+    it 'handles all 21 digits down to 10**-21' do
+      expect(split(Rational(1, 3))).to eq [0, [3] * 21]
+    end
+
+    it 'rejects negative values' do
+      expect { split(-0.25) }.to raise_error ArgumentError
+      expect { split(Rational(-3, 2)) }.to raise_error ArgumentError
+      expect { split(-5) }.to raise_error ArgumentError
+    end
+  end
+
   it 'can register formatter with proc' do
     proc1 = proc { 'p1' }
     expect(YaKansuji.register_formatter(:proc1, proc1)).to be_truthy

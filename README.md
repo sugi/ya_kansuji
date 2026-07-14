@@ -23,9 +23,10 @@ YaKansuji は ruby 用の日本語の漢数字ライブラリです。 和暦ラ
   * カンマ表現 (12,345 / 5億3,456万 / 二万、五十)
   * 負数 (マイナス五十)
 * 数値から漢数字, 漢字混じり数値文字列フォーマット
+  * 小数 (分厘毛〜清浄)
   * 複数のビルトインフォーマッタ
   * フォーマッタプラグイン機構
-* (オプション) 標準の String, Interger クラスの拡張
+* (オプション) 標準の String, Numeric クラスの拡張
 
 ## インストール
 
@@ -62,6 +63,23 @@ YaKansuji.to_kan(-12345) # => マイナス一万二千三百四十五
 対応する値域は `-(10**72 - 1)` から `10**72 - 1` です。
 数値として整数化した値がこの範囲を超える場合、`RangeError` が発生します。
 
+#### 小数
+
+Float・Rational・BigDecimal を渡すと、小数の命数法 (分 = 10⁻¹ 〜 清浄 = 10⁻²¹) で小数部を出力します。
+10⁻²¹ より小さい部分は四捨五入されます。
+
+```ruby
+YaKansuji.to_kan(0.5)               # => "五分"
+YaKansuji.to_kan(123.456)           # => "百二十三・四分五厘六毛"
+YaKansuji.to_kan(3.14159, :judic_v) # => "三・一四一五九"
+YaKansuji.to_kan(123.456, :gov)     # => "123.456"
+YaKansuji.to_kan(1.05, :judic_h)    # => "１．０５"
+```
+
+Float は `to_s` の最短表現として解釈されるため、`0.1` は正確に「一分」になります。
+逆に浮動小数点演算の誤差はそのまま出力されます (`0.1 + 0.2` → `0.30000000000000004` → 「三分四弾指」)。
+誤差を避けたい場合は Rational か BigDecimal を渡してください。
+
 このさい、2つめの引数にシンボルを渡すことにより、フォーマッタを切り替えることができます。
 
 ```ruby
@@ -84,7 +102,9 @@ YaKansuji.to_kan(12340005, :judic_h) # => "１２３４万０００５"
 
 `YaKansuji#register_formatter` を使うと独自のフォーマッタを登録できます。
 `#call` を持つ任意のオブジェクトもしくはブロックを渡します。第1引数に数字、第2引数にオプションが渡ります。
-負数を渡した場合も、フォーマッタには絶対値 (非負整数) が渡され、符号 (「マイナス」) は `to_kan` 側で前置されます。
+負数を渡した場合も、フォーマッタには絶対値 (非負の値) が渡され、符号 (「マイナス」) は `to_kan` 側で前置されます。
+小数を含む値を渡した場合、フォーマッタには正規化済みの値
+(整数なら Integer、小数を含むなら Rational) がそのまま渡ります。
 
 ```ruby
 YaKansuji.register_formatter :hoge, -> (num, opts = {}) {
@@ -100,14 +120,14 @@ YaKansuji.to_kan(123, :hoge)   # => "たくさん"
 
 ### 標準クラス拡張
 
-標準では YaKansuji の特異メソッドを直接呼ぶことで使用できますが、短く書く場合、必要応じてビルトインクラス (String, Integer) の拡張を使うことができます。
+標準では YaKansuji の特異メソッドを直接呼ぶことで使用できますが、短く書く場合、必要応じてビルトインクラス (String, Numeric) の拡張を使うことができます。
 
-クラス拡張では `String#to_i` を置き換え、 `Integer#to_kan` を追加します。
+クラス拡張では `String#to_i` を置き換え、`Numeric#to_kan` を追加します。
 拡張の方法は、Refinements と直接拡張の好きな方を選択できます。
 
 #### [Refinements](https://docs.ruby-lang.org/en/2.6.0/syntax/refinements_rdoc.html) による拡張
 
-`YaKansuji::CoreRefine` を using すると、 `String#to_i` を置き換え、 `Integer#to_kan` を追加します。
+`YaKansuji::CoreRefine` を using すると、 `String#to_i` を置き換え、 `Numeric#to_kan` を追加します。
 
 ```ruby
 puts "二万".to_i     # => 0
@@ -117,6 +137,7 @@ using YaKansuji::CoreRefine
 puts "二万".to_i     # => 20000
 puts 20000.to_kan   #= > "二万"
 puts 20000.to_kan(:gov) # => "2万"
+puts 0.5.to_kan # => "五分"
 ```
 
 ちなみに、 `to_i` に base が渡された場合は、漢数字が解釈されずにビルトインクラスのものが呼ばれます。

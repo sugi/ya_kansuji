@@ -1,5 +1,15 @@
 2026-07-14  Tatsuki Sugiura  <sugi@nemui.org>
 
+	* Version: 1.3.0
+	* Support fractional numbers (Float / Rational / BigDecimal) on
+	  to_kan, using Japanese small number units (分 厘 毛 ... 清浄)
+	* Fractions are rounded at 10^-21; floats are interpreted by their
+	  shortest decimal representation (to_s)
+	* All builtin formatters render fractions in their own style
+	* Add Numeric#to_kan to core extensions and refinements
+
+2026-07-14  Tatsuki Sugiura  <sugi@nemui.org>
+
 	* Version: 1.2.0
 	* Require Ruby 2.3.0 or later
 	* Accept formatter and options on Integer#to_kan core extension

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'bigdecimal'
+
 RSpec.describe YaKansuji do
   let(:u) { described_class }
 
@@ -60,7 +62,7 @@ RSpec.describe YaKansuji do
 
   it 'can format a negative number with a leading マイナス' do
     expect(u.to_kan(-1234)).to eq 'マイナス千二百三十四'
-    expect(u.to_kan(-0.5)).to eq '零'
+    expect(u.to_kan(-0.5)).to eq 'マイナス五分'
     expect(u.to_kan(-10_003, :gov)).to eq 'マイナス1万, 3'
     expect(u.to_kan('-123')).to eq 'マイナス百二十三'
   end
@@ -78,6 +80,49 @@ RSpec.describe YaKansuji do
   it 'keeps minus round-trip across builtin formatters' do
     %i(simple gov lawyer judic_v judic_h).each do |fmt|
       expect(u.to_i(u.to_kan(-98_765, fmt))).to eq(-98_765)
+    end
+  end
+
+  it 'can format fractional numbers' do
+    expect(u.to_kan(0.5)).to eq '五分'
+    expect(u.to_kan(1.05)).to eq '一・五厘'
+    expect(u.to_kan(123.456, :gov)).to eq '123.456'
+    expect(u.to_kan(Rational(1, 4), :judic_h)).to eq '０．２５'
+    expect(u.to_kan(BigDecimal('3.14159'), :judic_v)).to eq '三・一四一五九'
+    expect(u.to_kan(1.0)).to eq '一'
+    expect(u.to_kan(0.0)).to eq '零'
+  end
+
+  it 'interprets floats by their shortest decimal representation' do
+    expect(u.to_kan(0.1)).to eq '一分'
+    expect(u.to_kan(0.1 + 0.2)).to eq '三分四弾指'
+  end
+
+  it 'rounds fractions below 清浄 (10**-21)' do
+    expect(u.to_kan(Rational(1, 10**22))).to eq '零'
+    expect(u.to_kan(Rational((10**22) - 1, 10**22))).to eq '一'
+  end
+
+  it 'raises FloatDomainError for NaN and Infinity' do
+    expect { u.to_kan(Float::NAN) }.to raise_error FloatDomainError
+    expect { u.to_kan(Float::INFINITY) }.to raise_error FloatDomainError
+  end
+
+  it 'checks the range against the integer part of fractional values' do
+    max = YaKansuji::MAX_VALUE
+    expect(u.to_kan(Rational(max) + Rational(1, 2))).to end_with '九・五分'
+    expect { u.to_kan(Rational(max + 1) + Rational(1, 2)) }.to raise_error RangeError
+  end
+
+  it 'passes normalized values through to custom formatters' do
+    u.register_formatter(:frac_probe) { |n, _opts| "#{n.class}:#{n}" }
+    begin
+      expect(u.to_kan(0.5, :frac_probe)).to eq 'Rational:1/2'
+      expect(u.to_kan(5, :frac_probe)).to eq 'Integer:5'
+      expect(u.to_kan(-1.5, :frac_probe)).to eq 'マイナスRational:3/2'
+      expect(u.to_kan(0.5, ->(n, _o) { n.inspect })).to eq '(1/2)'
+    ensure
+      u.formatters.delete(:frac_probe)
     end
   end
 
