@@ -120,6 +120,7 @@ RSpec.describe YaKansuji do
       expect(u.to_kan(0.5, :frac_probe)).to eq 'Rational:1/2'
       expect(u.to_kan(5, :frac_probe)).to eq 'Integer:5'
       expect(u.to_kan(-1.5, :frac_probe)).to eq 'マイナスRational:3/2'
+      expect(u.to_kan(0.5, ->(n, _o) { n.inspect })).to eq '(1/2)'
     ensure
       u.formatters.delete(:frac_probe)
     end

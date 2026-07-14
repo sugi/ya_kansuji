@@ -48,6 +48,7 @@ RSpec.describe YaKansuji::Formatter do
     it 'rejects negative values' do
       expect { split(-0.25) }.to raise_error ArgumentError
       expect { split(Rational(-3, 2)) }.to raise_error ArgumentError
+      expect { split(-5) }.to raise_error ArgumentError
     end
   end
 

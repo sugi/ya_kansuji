@@ -31,6 +31,7 @@ RSpec.describe YaKansuji::Formatter::JudicV do
     expect(k(Rational('1.05'))).to eq '一・〇五'
     expect(k(Rational('3.14159'))).to eq '三・一四一五九'
     expect(k(Rational('12340000.5'))).to eq '一二三四万〇〇〇〇・五'
+    expect(k(Rational('100000000.5'))).to eq '一億〇〇〇〇・五'
     expect(k(1.0)).to eq '一'
   end
 end

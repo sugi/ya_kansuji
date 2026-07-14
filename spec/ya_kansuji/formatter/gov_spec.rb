@@ -32,6 +32,7 @@ RSpec.describe YaKansuji::Formatter::Gov do
     expect(k(Rational('1.5'))).to eq '1.5'
     expect(k(Rational('12340000.5'))).to eq '1234万, 0.5'
     expect(k(Rational('10001.5'))).to eq '1万, 1.5'
+    expect(k(Rational('100000000.5'))).to eq '1億, 0.5'
     expect(k(1.0)).to eq '1'
   end
 end

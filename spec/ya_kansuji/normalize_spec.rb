@@ -67,6 +67,11 @@ RSpec.describe YaKansuji do
       expect { u.normalize_value(Float::INFINITY) }.to raise_error FloatDomainError
       expect { u.normalize_value(-Float::INFINITY) }.to raise_error FloatDomainError
     end
+
+    it 'falls back to to_i for numerics without truncate' do
+      expect(u.normalize_value(Complex(5, 0))).to eq 5
+      expect { u.normalize_value(Complex(1, 2)) }.to raise_error RangeError
+    end
   end
 end
 # rubocop:enable RSpec/SpecFilePathFormat

@@ -30,6 +30,7 @@ RSpec.describe YaKansuji::Formatter::Lawyer do
     expect(k(Rational('1.05'))).to eq '1.05'
     expect(k(Rational('12345678.9'))).to eq '1,234万5,678.9'
     expect(k(Rational('12340000.5'))).to eq '1,234万0.5'
+    expect(k(Rational('100000000.5'))).to eq '1億0.5'
     expect(k(1.0)).to eq '1'
   end
 end
