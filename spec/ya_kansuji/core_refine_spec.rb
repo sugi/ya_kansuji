@@ -32,4 +32,10 @@ RSpec.describe YaKansuji::CoreRefine do
     expect(CoreRefineExamples.format(20_000, :gov)).to eq '2万'
     expect(CoreRefineExamples.format(12, formatter, suffix: '個')).to eq '12:個'
   end
+
+  it 'adds to_kan to Float and Rational' do
+    expect(CoreRefineExamples.format(0.5)).to eq '五分'
+    expect(CoreRefineExamples.format(1.05, :judic_h)).to eq '１．０５'
+    expect(CoreRefineExamples.format(Rational(1, 4), :gov)).to eq '0.25'
+  end
 end

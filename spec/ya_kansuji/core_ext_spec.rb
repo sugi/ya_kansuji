@@ -21,5 +21,11 @@ RSpec.describe 'YaKansuji core extensions' do
     expect(20_000.to_kan(:gov)).to eq '2万'
     expect(12.to_kan(formatter, suffix: '個')).to eq '12:個'
   end
+
+  it 'adds to_kan to Float and Rational' do
+    expect(0.5.to_kan).to eq '五分'
+    expect(1.05.to_kan(:judic_h)).to eq '１．０５'
+    expect(Rational(1, 4).to_kan(:gov)).to eq '0.25'
+  end
 end
 # rubocop:enable RSpec/DescribeClass
