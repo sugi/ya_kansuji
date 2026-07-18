@@ -10,7 +10,7 @@ jobs:
       - name: Set up minimum supported Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "2.3.8"
+          ruby-version: "2.7.8"
       - name: Run compatibility smoke test without development dependencies
         run: |
           ruby -Ilib -rya_kansuji -e 'raise unless %i(simple gov lawyer judic_v judic_h).all? { |f| YaKansuji.to_i(YaKansuji.to_kan(1234, f)) == 1234 }'
